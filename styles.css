@@ -1,0 +1,159 @@
+:root {
+  --orange: #ff7a00;
+  --white: #ffffff;
+  --bg: #0f0f10;
+  --overlay-bg: rgba(0, 0, 0, 0.8); /* 80% чёрного */
+  --transition-fast: 220ms cubic-bezier(0.2, 0, 0, 1);
+  --transition-medium: 320ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--white);
+  background: var(--bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Шапка: логотип слева, бургер справа */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100; /* выше оверлея, чтобы крестик был кликабелен */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: transparent;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.brand-name {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* Кнопка бургера */
+.burger {
+  position: relative;
+  width: 48px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.burger:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.burger .line {
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 1px;
+  transition:
+    transform var(--transition-medium),
+    opacity var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.burger .line:nth-child(1) { transform: translateY(-8px); }
+.burger .line:nth-child(2) { transform: translateY(0); }
+.burger .line:nth-child(3) { transform: translateY(8px); }
+
+/* Анимация в крестик и смена цвета на оранжевый при открытом меню */
+body.menu-open .burger .line { background: var(--orange); }
+body.menu-open .burger .line:nth-child(1) { transform: rotate(45deg); }
+body.menu-open .burger .line:nth-child(2) { opacity: 0; transform: scaleX(0.5); }
+body.menu-open .burger .line:nth-child(3) { transform: rotate(-45deg); }
+
+/* Оверлей меню */
+.overlay-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--overlay-bg);
+  backdrop-filter: saturate(140%);
+}
+
+body.menu-open .overlay-menu {
+  display: flex;
+}
+
+.menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.menu-link {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: clamp(20px, 3vw, 28px);
+  letter-spacing: 0.3px;
+  transition: color var(--transition-fast);
+}
+
+.menu-link:hover { color: var(--orange); }
+.menu-link.active { color: var(--orange); }
+
+/* Контент страницы для демонстрации */
+.page-content {
+  padding-top: 72px; /* пространство под фиксированную шапку */
+}
+
+.demo-section {
+  padding: 48px 16px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* Блокируем скролл, когда открыто меню */
+body.menu-open { overflow: hidden; }
