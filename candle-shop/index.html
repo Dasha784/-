@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Lueur Candles — Магазин свечей</title>
+    <meta name="description" content="Модный и стильный магазин ароматических свечей: натуральный воск, минималистичный дизайн и насыщённые ноты.">
+
+    <link rel="icon" href="./assets/logo.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script>
+      const storedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+
+    <script>
+      tailwind = { config: {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: '#fff7ed',
+                100: '#ffedd5',
+                200: '#fed7aa',
+                300: '#fdba74',
+                400: '#fb923c',
+                500: '#f97316',
+                600: '#ea580c',
+                700: '#c2410c',
+                800: '#9a3412',
+                900: '#7c2d12'
+              }
+            },
+            fontFamily: {
+              sans: ['Manrope','ui-sans-serif','system-ui','sans-serif']
+            },
+            boxShadow: {
+              soft: '0 10px 30px -12px rgba(0,0,0,0.2)'
+            }
+          }
+        }
+      }}
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      :root{ --ring: 0 0% 0% }
+      ::selection{ background: #f97316; color:#111 }
+      .scrollbar-thin{ scrollbar-width: thin }
+      .scrollbar-thin::-webkit-scrollbar{ height:8px; width:8px }
+      .scrollbar-thin::-webkit-scrollbar-thumb{ background: rgba(0,0,0,.2); border-radius: 9999px }
+      .scrollbar-thin::-webkit-scrollbar-track{ background: transparent }
+      input[type=range]{ accent-color:#f97316 }
+      .backdrop-blur-12{ backdrop-filter: blur(12px) }
+    </style>
+  </head>
+
+  <body class="bg-zinc-50 text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100">
+    <a href="#catalog" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 bg-black text-white px-3 py-2 rounded">К каталогу</a>
+
+    <header class="sticky top-0 z-40">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mt-4 rounded-2xl border border-zinc-200/60 bg-white/80 shadow-soft backdrop-blur-12 dark:border-zinc-800 dark:bg-zinc-900/70">
+          <div class="flex items-center justify-between px-4 py-3 sm:px-6">
+            <div class="flex items-center gap-3">
+              <img src="./assets/logo.svg" alt="Lueur" class="h-8 w-8">
+              <div class="flex flex-col leading-tight">
+                <span class="text-lg font-semibold tracking-tight">Lueur</span>
+                <span class="text-xs text-zinc-500 dark:text-zinc-400">Candle Studio</span>
+              </div>
+            </div>
+            <nav class="hidden items-center gap-6 text-sm font-medium text-zinc-600 dark:text-zinc-300 md:flex">
+              <a href="#catalog" class="hover:text-zinc-900 dark:hover:text-white">Каталог</a>
+              <a href="#about" class="hover:text-zinc-900 dark:hover:text-white">О нас</a>
+              <a href="#contacts" class="hover:text-zinc-900 dark:hover:text-white">Контакты</a>
+            </nav>
+            <div class="flex items-center gap-2">
+              <button id="themeToggle" class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-700 shadow-sm transition hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-zinc-700" aria-label="Сменить тему" title="Сменить тему">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3v1.5M12 19.5V21M4.5 12H3m18 0h-1.5M5.864 5.864 4.803 4.803m14.394 14.394-1.061-1.061M18.136 5.864l1.061-1.061M5.864 18.136l-1.061 1.061"/><path d="M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z"/></svg>
+              </button>
+              <button id="openFavorites" class="inline-flex h-10 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-800 shadow-sm transition hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:border-zinc-700">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M11.645 20.91l-.007-.003-.022-.01a15.247 15.247 0 01-.383-.173 25.18 25.18 0 01-4.244-2.62C4.688 16.6 2.25 13.897 2.25 10.5A5.25 5.25 0 017.5 5.25a5.23 5.23 0 014.5 2.474 5.23 5.23 0 014.5-2.474 5.25 5.25 0 015.25 5.25c0 3.397-2.438 6.1-4.739 7.603a25.177 25.177 0 01-4.244 2.62 15.247 15.247 0 01-.383.173l-.022.01-.007.003a.75.75 0 01-.614 0z"/></svg>
+                <span class="hidden sm:inline">Избранное</span>
+              </button>
+              <button id="openCart" class="inline-flex h-10 items-center gap-2 rounded-xl bg-zinc-900 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M2.25 3a.75.75 0 000 1.5h1.386l2.724 12.27A2.25 2.25 0 008.565 18h7.62a2.25 2.25 0 002.206-1.77l1.426-6.84A.75.75 0 0019.095 8H6.343l-.6-2.7A2.25 2.25 0 003.543 3H2.25zM9 21a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm8.25-1.5a1.5 1.5 0 11-3.001.001A1.5 1.5 0 0117.25 19.5z"/></svg>
+                <span>Корзина</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="relative">
+        <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          <div class="absolute -left-24 top-[-120px] h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-brand-500/20 to-pink-500/20 blur-3xl"></div>
+          <div class="absolute -right-24 bottom-[-100px] h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-yellow-400/20 to-brand-500/20 blur-3xl"></div>
+        </div>
+        <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+          <div class="grid items-center gap-10 lg:grid-cols-2">
+            <div>
+              <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 dark:border-brand-800 dark:bg-zinc-900 dark:text-brand-300">
+                <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
+                Новая коллекция SS/25
+              </span>
+              <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">Ароматные свечи для настроения и пространства</h1>
+              <p class="mt-4 max-w-xl text-zinc-600 dark:text-zinc-400">Насыщённые ноты, чистый горящий состав и минималистичный дизайн. Ручная заливка из кокосового и соевого воска.</p>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <a href="#catalog" class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100">Смотреть каталог</a>
+                <button id="openFilters" class="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-5 py-3 text-sm font-semibold text-zinc-800 shadow-sm transition hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:border-zinc-700">
+                  Фильтры
+                </button>
+              </div>
+              <dl class="mt-8 grid grid-cols-3 gap-4 text-sm">
+                <div><dt class="text-zinc-500">Воск</dt><dd class="font-semibold">Кокос + соя</dd></div>
+                <div><dt class="text-zinc-500">Фитиль</dt><dd class="font-semibold">Деревянный</dd></div>
+                <div><dt class="text-zinc-500">Длительность</dt><dd class="font-semibold">до 60 ч</dd></div>
+              </dl>
+            </div>
+            <div class="relative">
+              <div class="relative mx-auto h-80 w-full max-w-md overflow-hidden rounded-3xl border border-zinc-200/60 bg-white p-6 shadow-soft dark:border-zinc-800 dark:bg-zinc-900">
+                <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,rgba(249,115,22,0.12),transparent_40%),radial-gradient(ellipse_at_bottom_right,rgba(251,191,36,0.12),transparent_40%)]"></div>
+                <div class="flex h-full flex-col justify-between">
+                  <div class="flex items-center justify-between">
+                    <span class="rounded-full bg-zinc-100 px-2 py-1 text-xs font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">Сигнатурная серия</span>
+                    <span class="text-xs text-zinc-500">Ручная работа</span>
+                  </div>
+                  <div class="flex items-center justify-center">
+                    <div class="h-40 w-40 rounded-full bg-gradient-to-tr from-zinc-200 to-zinc-100 shadow-inner dark:from-zinc-800 dark:to-zinc-700"></div>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm text-zinc-500">Lueur</p>
+                      <p class="text-lg font-semibold">Amber Noir</p>
+                    </div>
+                    <button id="heroAdd" class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700">В корзину</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="catalog" class="border-t border-zinc-200/60 py-8 dark:border-zinc-800">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="flex flex-col gap-4 lg:flex-row">
+            <aside id="filtersAside" class="hidden w-full shrink-0 lg:block lg:w-72">
+              <div class="sticky top-24 space-y-4">
+                <div class="rounded-2xl border border-zinc-200/60 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                  <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-semibold">Фильтры</h2>
+                    <button id="resetFilters" class="text-xs text-zinc-500 underline underline-offset-2">Сбросить</button>
+                  </div>
+                  <div class="mt-4 space-y-6 text-sm">
+                    <div>
+                      <p class="mb-2 text-xs uppercase tracking-wide text-zinc-500">Семейства ароматов</p>
+                      <div id="filterFamilies" class="flex flex-wrap gap-2"></div>
+                    </div>
+                    <div>
+                      <p class="mb-2 text-xs uppercase tracking-wide text-zinc-500">Цена, ₽</p>
+                      <div class="flex items-center gap-3">
+                        <input id="priceMin" type="number" inputmode="numeric" class="w-24 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-800 dark:bg-zinc-900" placeholder="от" min="0">
+                        <div class="h-px flex-1 bg-zinc-200 dark:bg-zinc-800"></div>
+                        <input id="priceMax" type="number" inputmode="numeric" class="w-24 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-800 dark:bg-zinc-900" placeholder="до" min="0">
+                      </div>
+                      <input id="priceRange" type="range" min="590" max="4990" value="4990" class="mt-3 w-full">
+                    </div>
+                    <div>
+                      <p class="mb-2 text-xs uppercase tracking-wide text-zinc-500">Теги</p>
+                      <div id="filterTags" class="flex flex-wrap gap-2"></div>
+                    </div>
+                    <div>
+                      <label class="flex items-center gap-3">
+                        <input id="onlySale" type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-brand-600 focus:ring-brand-500">
+                        <span>Показывать со скидкой</span>
+                      </label>
+                      <label class="mt-2 flex items-center gap-3">
+                        <input id="onlyFavorites" type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-brand-600 focus:ring-brand-500">
+                        <span>Только избранное</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            <div class="min-w-0 flex-1">
+              <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="relative w-full sm:max-w-md">
+                  <svg class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m21 21-4.35-4.35"/><circle cx="11" cy="11" r="7"/></svg>
+                  <input id="searchInput" type="search" placeholder="Поиск по названию, нотам..." class="w-full rounded-xl border border-zinc-200 bg-white py-2 pl-11 pr-3 text-sm shadow-sm placeholder:text-zinc-400 focus:border-zinc-300 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900">
+                </div>
+                <div class="flex items-center gap-3">
+                  <label class="text-sm text-zinc-500">Сортировка</label>
+                  <select id="sortSelect" class="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                    <option value="popular">Популярные</option>
+                    <option value="new">Новинки</option>
+                    <option value="priceAsc">Цена: по возрастанию</option>
+                    <option value="priceDesc">Цена: по убыванию</option>
+                    <option value="rating">Рейтинг</option>
+                  </select>
+                  <button id="openFilters2" class="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold shadow-sm lg:hidden dark:border-zinc-800 dark:bg-zinc-900">Фильтры</button>
+                </div>
+              </div>
+
+              <div id="activeFilters" class="mb-4 hidden flex-wrap gap-2"></div>
+
+              <div id="grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
+
+              <div id="emptyState" class="hidden rounded-2xl border border-zinc-200/60 bg-white p-8 text-center dark:border-zinc-800 dark:bg-zinc-900">
+                <p class="text-lg font-semibold">Ничего не найдено</p>
+                <p class="mt-1 text-sm text-zinc-500">Попробуйте изменить параметры поиска или сбросить фильтры.</p>
+                <button id="emptyReset" class="mt-4 inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100">Сбросить фильтры</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="border-t border-zinc-200/60 py-12 dark:border-zinc-800">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="grid items-center gap-8 lg:grid-cols-2">
+            <div class="rounded-3xl border border-zinc-200/60 bg-white p-8 shadow-soft dark:border-zinc-800 dark:bg-zinc-900">
+              <h2 class="text-2xl font-bold">Минимализм и качество</h2>
+              <p class="mt-3 text-zinc-600 dark:text-zinc-400">Мы вручную создаём свечи малым тиражом: натуральный воск, стойкие масла и чистое горение. Каждая свеча — это настроение, которое хочется разделить.</p>
+              <dl class="mt-6 grid grid-cols-2 gap-6 text-sm">
+                <div>
+                  <dt class="text-zinc-500">Состав</dt>
+                  <dd class="font-semibold">100% веган</dd>
+                </div>
+                <div>
+                  <dt class="text-zinc-500">Упаковка</dt>
+                  <dd class="font-semibold">рециклируемая</dd>
+                </div>
+                <div>
+                  <dt class="text-zinc-500">Производство</dt>
+                  <dd class="font-semibold">ручное</dd>
+                </div>
+                <div>
+                  <dt class="text-zinc-500">Доставка</dt>
+                  <dd class="font-semibold">по всей РФ</dd>
+                </div>
+              </dl>
+            </div>
+            <div class="overflow-hidden rounded-3xl border border-zinc-200/60 bg-white shadow-soft dark:border-zinc-800 dark:bg-zinc-900">
+              <div class="aspect-[16/10] w-full bg-[radial-gradient(ellipse_at_center,rgba(249,115,22,0.14),transparent_40%),radial-gradient(ellipse_at_top_right,rgba(251,191,36,0.12),transparent_40%)]"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contacts" class="border-t border-zinc-200/60 py-12 dark:border-zinc-800">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="grid gap-8 lg:grid-cols-2">
+            <div class="rounded-3xl border border-zinc-200/60 bg-white p-8 shadow-soft dark:border-zinc-800 dark:bg-zinc-900">
+              <h2 class="text-2xl font-bold">Оставайтесь на связи</h2>
+              <p class="mt-2 text-zinc-600 dark:text-zinc-400">Анонсы запусков, закрытые распродажи и советы по уходу за свечами — раз в месяц, без спама.</p>
+              <form id="newsletterForm" class="mt-6 flex gap-3">
+                <input type="email" required placeholder="Ваш e‑mail" class="min-w-0 flex-1 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                <button class="rounded-xl bg-zinc-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100">Подписаться</button>
+              </form>
+              <p id="newsletterMsg" class="mt-2 hidden text-sm text-brand-600">Спасибо! Проверьте почту для подтверждения.</p>
+            </div>
+            <div class="rounded-3xl border border-zinc-200/60 bg-white p-8 shadow-soft dark:border-zinc-800 dark:bg-zinc-900">
+              <h3 class="text-lg font-semibold">Контакты</h3>
+              <ul class="mt-3 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
+                <li>E‑mail: hello@lueur.store</li>
+                <li>Instagram*: @lueur.candles</li>
+                <li>Телеграм: @lueur_candles</li>
+              </ul>
+              <p class="mt-6 text-xs text-zinc-500">*Запрещённая в РФ организация. Указано для связи и ознакомления.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-zinc-200/60 py-10 text-sm dark:border-zinc-800">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <div class="flex items-center gap-3">
+            <img src="./assets/logo.svg" class="h-7 w-7" alt="Lueur">
+            <span class="font-semibold">Lueur</span>
+            <span class="text-zinc-400">© 2025</span>
+          </div>
+          <div class="text-zinc-500">Сделано с любовью к атмосфере</div>
+        </div>
+      </div>
+    </footer>
+
+    <div id="toastRoot" class="pointer-events-none fixed inset-0 z-[60] flex items-end justify-center p-4 sm:items-start sm:justify-end"></div>
+
+    <div id="quickView" class="fixed inset-0 z-[70] hidden">
+      <div data-overlay class="absolute inset-0 bg-black/40"></div>
+      <div class="absolute right-0 top-0 h-full w-full max-w-2xl translate-x-full bg-white shadow-xl transition-transform dark:bg-zinc-950" data-panel>
+        <div class="flex h-full flex-col">
+          <div class="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-zinc-800">
+            <h3 class="text-lg font-semibold">Быстрый просмотр</h3>
+            <button data-close class="rounded-lg p-2 hover:bg-zinc-100 dark:hover:bg-zinc-900" aria-label="Закрыть">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 18 18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <div id="quickViewBody" class="flex-1 overflow-y-auto p-6 scrollbar-thin"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="cartDrawer" class="fixed inset-0 z-[80] hidden">
+      <div data-overlay class="absolute inset-0 bg-black/40"></div>
+      <div class="absolute right-0 top-0 h-full w-full max-w-md translate-x-full bg-white shadow-xl transition-transform dark:bg-zinc-950" data-panel>
+        <div class="flex h-full flex-col">
+          <div class="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-zinc-800">
+            <h3 class="text-lg font-semibold">Корзина</h3>
+            <button data-close class="rounded-lg p-2 hover:bg-zinc-100 dark:hover:bg-zinc-900" aria-label="Закрыть">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 18 18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <div class="flex-1 overflow-y-auto p-6 scrollbar-thin">
+            <div id="cartItems" class="space-y-4"></div>
+            <div id="cartEmpty" class="hidden text-center text-sm text-zinc-500">Ваша корзина пуста</div>
+          </div>
+          <div class="border-t border-zinc-200 p-6 dark:border-zinc-800">
+            <div class="space-y-3 text-sm">
+              <div class="flex items-center justify-between">
+                <span>Подытог</span>
+                <span id="cartSubtotal" class="font-semibold">0 ₽</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Скидка</span>
+                <span id="cartDiscount" class="font-semibold">0 ₽</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Доставка</span>
+                <span id="cartShipping" class="font-semibold">0 ₽</span>
+              </div>
+              <div class="flex items-center justify-between text-base font-bold">
+                <span>Итого</span>
+                <span id="cartTotal">0 ₽</span>
+              </div>
+            </div>
+            <div class="mt-4 flex items-center gap-2">
+              <input id="couponInput" placeholder="Купон (AROMA10)" class="min-w-0 flex-1 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+              <button id="applyCoupon" class="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm font-semibold shadow-sm dark:border-zinc-800 dark:bg-zinc-900">Применить</button>
+            </div>
+            <button id="checkoutBtn" class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-zinc-900 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 disabled:opacity-60 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100">Оформить заказ</button>
+            <p id="freeShippingMsg" class="mt-2 text-center text-xs text-zinc-500">Бесплатная доставка от 5000 ₽</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="filtersDrawer" class="fixed inset-0 z-[75] hidden lg:hidden">
+      <div data-overlay class="absolute inset-0 bg-black/40"></div>
+      <div class="absolute left-0 top-0 h-full w-full max-w-md -translate-x-full bg-white shadow-xl transition-transform dark:bg-zinc-950" data-panel>
+        <div class="flex h-full flex-col">
+          <div class="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-zinc-800">
+            <h3 class="text-lg font-semibold">Фильтры</h3>
+            <button data-close class="rounded-lg p-2 hover:bg-zinc-100 dark:hover:bg-zinc-900" aria-label="Закрыть">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 18 18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <div class="flex-1 overflow-y-auto p-6 scrollbar-thin">
+            <div class="space-y-6 text-sm">
+              <div>
+                <p class="mb-2 text-xs uppercase tracking-wide text-zinc-500">Семейства ароматов</p>
+                <div id="filterFamiliesDrawer" class="flex flex-wrap gap-2"></div>
+              </div>
+              <div>
+                <p class="mb-2 text-xs uppercase tracking-wide text-zinc-500">Цена, ₽</p>
+                <div class="flex items-center gap-3">
+                  <input id="priceMinD" type="number" inputmode="numeric" class="w-24 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-800 dark:bg-zinc-900" placeholder="от" min="0">
+                  <div class="h-px flex-1 bg-zinc-200 dark:bg-zinc-800"></div>
+                  <input id="priceMaxD" type="number" inputmode="numeric" class="w-24 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-800 dark:bg-zinc-900" placeholder="до" min="0">
+                </div>
+                <input id="priceRangeD" type="range" min="590" max="4990" value="4990" class="mt-3 w-full">
+              </div>
+              <div>
+                <p class="mb-2 text-xs uppercase tracking-wide text-zinc-500">Теги</p>
+                <div id="filterTagsDrawer" class="flex flex-wrap gap-2"></div>
+              </div>
+              <div>
+                <label class="flex items-center gap-3">
+                  <input id="onlySaleD" type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-brand-600 focus:ring-brand-500">
+                  <span>Показывать со скидкой</span>
+                </label>
+                <label class="mt-2 flex items-center gap-3">
+                  <input id="onlyFavoritesD" type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-brand-600 focus:ring-brand-500">
+                  <span>Только избранное</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="border-t border-zinc-200 p-6 dark:border-zinc-800">
+            <button id="applyFiltersD" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-zinc-900 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100">Показать</button>
+            <button id="resetFiltersD" class="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm font-semibold shadow-sm dark:border-zinc-800 dark:bg-zinc-900">Сбросить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>
